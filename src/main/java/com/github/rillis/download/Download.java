@@ -2,12 +2,15 @@ package com.github.rillis.download;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 
 import com.github.rillis.MainFrame;
+
+import zip.Zip;
 
 public class Download {
 	private static File rootDir = null;
@@ -53,19 +56,20 @@ public class Download {
 		command("\""+steamcmd.getPath()+"\" +login anonymous +workshop_download_item "+appID+" "+pID+" +quit");
 		
 		//comando para zipar
-		command("cd \""+sevenzDir.getPath()+"\" && 7za.exe a -tzip "+fileName+" "+"\""+steamcmdDir.getPath()+"\\steamapps\\workshop\\content\\"+appID+"\\"+pID+"\\*\"");
-		
-		//comando para excluir o cache
-		deleteDir(new File(steamcmdDir.getPath()+"\\steamapps\\workshop\\content\\"+appID+"\\"+pID));
-		
-		//mover zip para pasta final
 		try {
-			Files.move(new File(sevenzDir.getPath()+"\\"+fileName).toPath(), new File(directory.getPath()+"\\"+fileName).toPath());
+			Zip.zip(new File[] {new File(steamcmdDir.getPath()+"\\steamapps\\workshop\\content\\"+appID+"\\"+pID)}, new File(directory.getPath()+"\\"+fileName));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
+		//comando para excluir o cache
+		deleteDir(new File(steamcmdDir.getPath()+"\\steamapps\\workshop\\content\\"+appID+"\\"+pID));
+		
+		
 		return true;
+		
 	}
 	
 	private static void deleteDir(File file) {
