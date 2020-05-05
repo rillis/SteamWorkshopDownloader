@@ -62,7 +62,7 @@ public class MainFrame extends JFrame {
 			public void run() {
 				try {
 					if(!Download.isInstalled()) {
-						JOptionPane.showMessageDialog(null, "Steamcmd not found");
+						JOptionPane.showMessageDialog(null, "Steamcmd not found \n");
 						System.exit(0);
 					}
 					

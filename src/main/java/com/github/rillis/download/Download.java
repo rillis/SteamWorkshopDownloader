@@ -8,6 +8,8 @@ import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 
+import javax.swing.JOptionPane;
+
 import com.github.rillis.MainFrame;
 
 import zip.Zip;
@@ -16,12 +18,11 @@ public class Download {
 	private static File rootDir = null;
 	private static File steamcmdDir = null;
 	private static File steamcmd = null;
-	private static File sevenzDir = null;
-	private static File sevenz = null;
 	
 	public static String ERROR = "";
 	
 	private static void config() {
+		
 		//Setar as pastas de run
 		try {
 			rootDir = new File(Download.class.getProtectionDomain().getCodeSource().getLocation()
@@ -36,8 +37,6 @@ public class Download {
 		
 		steamcmdDir = new File(rootDir.getPath()+"\\steamcmd");
 		steamcmd = new File(steamcmdDir.getPath()+"\\steamcmd.exe");
-		sevenzDir = new File(rootDir.getPath()+"\\7z");
-		sevenz = new File(sevenzDir.getPath()+"\\7za.exe");	
 	}
 	
 	public static boolean download(File directory, String appID, String url, String fileName) {
@@ -112,7 +111,7 @@ public class Download {
 	
 	public static boolean isInstalled() {
 		config();
-		if(!steamcmd.exists()||!sevenz.exists()) {
+		if(!steamcmd.exists()) {
 			return false;
 		}
 		return true;
